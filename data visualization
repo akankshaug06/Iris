@@ -1,0 +1,37 @@
+import numpy as np
+import pandas as pd
+import seaborn as sns
+df = sns.load_dataset('iris')
+
+df
+
+sns.pairplot(df, hue= 'species')
+
+x= df.drop('species', axis=1)
+y = df['species']
+
+from sklearn.model_selection import train_test_split
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, random_state = 42)
+
+from sklearn.neighbors import KNeighborsClassifier
+
+clf = KNeighborsClassifier(n_neighbors= 5)
+clf.fit(x_train, y_train)
+
+import pickle
+with open('iris_b', 'wb') as file:
+  pickle.dump(clf,file)
+
+import pickle
+with open('iris_b', 'rb') as file:
+  clf = pickle.load(file)
+
+
+a1 = float(input('Enter sepal_length  '))
+a2 = float(input('Enter sepal_width   '))
+a3 = float(input('Enter petal_length  '))
+a4 = float(input('Enter petal_width   '))
+
+ans = clf.predict([[a1,a2,a3,a4]])
+print('flower belongs to   ', ans[0], '')
